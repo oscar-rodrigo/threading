@@ -11,7 +11,7 @@ export interface Thread {
 
 export interface Note {
   id: string;
-  threadId: string;
+  threadId: string | null;
   source: 'email' | 'manual';
   emailMetadata?: {
     from: string;

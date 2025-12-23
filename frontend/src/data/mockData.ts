@@ -494,6 +494,74 @@ We should apply some of these techniques to our dashboard.`,
     createdAt: '2025-11-30T12:00:05Z',
     updatedAt: '2025-11-30T12:00:05Z',
   },
+
+  // Unassigned Notes (Inbox)
+  {
+    id: 'note-inbox-1',
+    threadId: null,
+    source: 'email',
+    emailMetadata: {
+      from: 'sarah@company.com',
+      subject: 'Idea for new marketing campaign',
+      receivedAt: '2025-12-03T09:00:00Z',
+      messageId: 'msg-inbox-1',
+    },
+    content: {
+      plainText: 'We should consider running a campaign focused on developer productivity. Maybe a "Save 1 hour a day" theme? We could interview existing users and get case studies.',
+      extractedText: 'We should consider running a campaign focused on developer productivity. Maybe a "Save 1 hour a day" theme? We could interview existing users and get case studies.',
+    },
+    classification: {
+      threadId: 'thread-1', // Suggests Product Ideas
+      confidence: 0.82,
+      reasoning: 'Discusses a marketing campaign idea which relates to product promotion',
+      modelUsed: 'gemini-2.0-flash',
+      classifiedAt: '2025-12-03T09:00:05Z',
+    },
+    createdAt: '2025-12-03T09:00:05Z',
+    updatedAt: '2025-12-03T09:00:05Z',
+  },
+  {
+    id: 'note-inbox-2',
+    threadId: null,
+    source: 'email',
+    emailMetadata: {
+      from: 'alex@company.com',
+      subject: 'Link: CSS Container Queries',
+      receivedAt: '2025-12-03T11:15:00Z',
+      messageId: 'msg-inbox-2',
+    },
+    content: {
+      plainText: 'Check this out: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_container_queries\n\nSupport is pretty good now. We should start using this for our card components instead of media queries.',
+      extractedText: 'Check this out: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_container_queries. Support is pretty good now. We should start using this for our card components instead of media queries.',
+    },
+    classification: {
+      threadId: 'thread-3', // Suggests Research & Links
+      confidence: 0.96,
+      reasoning: 'Contains a technical link and suggestion for implementation',
+      modelUsed: 'gemini-2.0-flash',
+      classifiedAt: '2025-12-03T11:15:05Z',
+    },
+    createdAt: '2025-12-03T11:15:05Z',
+    updatedAt: '2025-12-03T11:15:05Z',
+  },
+  {
+    id: 'note-inbox-3',
+    threadId: null,
+    source: 'manual',
+    content: {
+      plainText: 'Note to self: Buy more coffee beans for the office kitchen.',
+      extractedText: 'Note to self: Buy more coffee beans for the office kitchen.',
+    },
+    classification: {
+      threadId: 'thread-4', // Suggests Quick Thoughts
+      confidence: 0.65,
+      reasoning: 'Short, personal reminder',
+      modelUsed: 'gemini-2.0-flash',
+      classifiedAt: '2025-12-03T13:45:00Z',
+    },
+    createdAt: '2025-12-03T13:45:00Z',
+    updatedAt: '2025-12-03T13:45:00Z',
+  },
 ];
 
 // Mock Generated Markdown

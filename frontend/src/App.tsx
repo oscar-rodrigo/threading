@@ -4,6 +4,7 @@ import { Navigation } from '@/components/Navigation';
 import { ThreadsList } from '@/components/ThreadsList';
 import { ThreadDetail } from '@/components/ThreadDetail';
 import { NewThreadForm } from '@/components/NewThreadForm';
+import { Inbox } from '@/components/Inbox';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <main className="container mx-auto px-4 py-8">
             <Routes>
               <Route path="/" element={<ThreadsList />} />
+              <Route path="/inbox" element={<Inbox />} />
               <Route path="/threads/new" element={<NewThreadForm />} />
               <Route path="/threads/:id" element={<ThreadDetail />} />
             </Routes>

@@ -2,7 +2,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useThreads } from '@/hooks/useThreads';
 import { NoteCard } from './NoteCard';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';

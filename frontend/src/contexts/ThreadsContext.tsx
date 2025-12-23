@@ -21,9 +21,11 @@ interface ThreadsContextType {
 
   // Note actions
   getNotesByThreadId: (threadId: string) => Note[];
+  getInboxNotes: () => Note[];
   createNote: (note: Omit<Note, 'id' | 'createdAt' | 'updatedAt'>) => Note;
   updateNote: (id: string, updates: Partial<Note>) => void;
   deleteNote: (id: string) => void;
+  moveNote: (noteId: string, targetThreadId: string) => void;
 
   // Generated markdown actions
   getGeneratedMarkdownByThreadId: (threadId: string) => GeneratedMarkdown[];
@@ -79,6 +81,10 @@ export function ThreadsProvider({ children }: { children: ReactNode }) {
     return notes.filter(note => note.threadId === threadId);
   };
 
+  const getInboxNotes = (): Note[] => {
+    return notes.filter(note => note.threadId === null);
+  };
+
   const createNote = (noteData: Omit<Note, 'id' | 'createdAt' | 'updatedAt'>): Note => {
     const newNote: Note = {
       ...noteData,
@@ -88,18 +94,20 @@ export function ThreadsProvider({ children }: { children: ReactNode }) {
     };
     setNotes(prev => [...prev, newNote]);
 
-    // Update thread note count
-    setThreads(prev =>
-      prev.map(thread =>
-        thread.id === noteData.threadId
-          ? {
-              ...thread,
-              noteCount: thread.noteCount + 1,
-              updatedAt: new Date().toISOString(),
-            }
-          : thread
-      )
-    );
+    // Update thread note count if assigned to a thread
+    if (noteData.threadId) {
+      setThreads(prev =>
+        prev.map(thread =>
+          thread.id === noteData.threadId
+            ? {
+                ...thread,
+                noteCount: thread.noteCount + 1,
+                updatedAt: new Date().toISOString(),
+              }
+            : thread
+        )
+      );
+    }
 
     return newNote;
   };
@@ -114,23 +122,49 @@ export function ThreadsProvider({ children }: { children: ReactNode }) {
     );
   };
 
+  const moveNote = (noteId: string, targetThreadId: string) => {
+    setNotes(prev =>
+      prev.map(note =>
+        note.id === noteId
+          ? { ...note, threadId: targetThreadId, updatedAt: new Date().toISOString() }
+          : note
+      )
+    );
+
+    // Update thread note counts
+    setThreads(prev =>
+      prev.map(thread => {
+        if (thread.id === targetThreadId) {
+          return {
+            ...thread,
+            noteCount: thread.noteCount + 1,
+            updatedAt: new Date().toISOString(),
+          };
+        }
+        return thread;
+      })
+    );
+  };
+
   const deleteNote = (id: string) => {
     const note = notes.find(n => n.id === id);
     if (note) {
       setNotes(prev => prev.filter(n => n.id !== id));
 
-      // Update thread note count
-      setThreads(prev =>
-        prev.map(thread =>
-          thread.id === note.threadId
-            ? {
-                ...thread,
-                noteCount: Math.max(0, thread.noteCount - 1),
-                updatedAt: new Date().toISOString(),
-              }
-            : thread
-        )
-      );
+      // Update thread note count if it was assigned to a thread
+      if (note.threadId) {
+        setThreads(prev =>
+          prev.map(thread =>
+            thread.id === note.threadId
+              ? {
+                  ...thread,
+                  noteCount: Math.max(0, thread.noteCount - 1),
+                  updatedAt: new Date().toISOString(),
+                }
+              : thread
+          )
+        );
+      }
     }
   };
 
@@ -198,9 +232,11 @@ ${note.content.extractedText}
     deleteThread,
     setSelectedThread,
     getNotesByThreadId,
+    getInboxNotes,
     createNote,
     updateNote,
     deleteNote,
+    moveNote,
     getGeneratedMarkdownByThreadId,
     generateMarkdown,
   };

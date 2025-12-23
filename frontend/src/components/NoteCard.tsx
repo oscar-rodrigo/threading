@@ -1,8 +1,7 @@
 import type { Note } from '@/types';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { formatDistanceToNow } from 'date-fns';
-import { Mail, User, Calendar } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 import { useState } from 'react';
 
 interface NoteCardProps {
@@ -19,13 +18,6 @@ export function NoteCard({ note }: NoteCardProps) {
   const isLong = content.length > 200;
   const displayContent = isExpanded || !isLong ? content : content.slice(0, 200) + '...';
 
-  const getConfidenceBadgeVariant = (confidence?: number) => {
-    if (!confidence) return 'secondary';
-    if (confidence >= 0.9) return 'default';
-    if (confidence >= 0.7) return 'secondary';
-    return 'outline';
-  };
-
   return (
     <Card className="overflow-hidden">
       <CardHeader className="pb-3">
@@ -37,24 +29,12 @@ export function NoteCard({ note }: NoteCardProps) {
               </h3>
             )}
             <div className="flex flex-wrap gap-2 text-sm text-muted-foreground">
-              {note.emailMetadata && (
-                <>
-                  <div className="flex items-center gap-1">
-                    <User className="h-3.5 w-3.5" />
-                    <span className="truncate">{note.emailMetadata.from}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Calendar className="h-3.5 w-3.5" />
-                    <span>{receivedAt}</span>
-                  </div>
-                </>
-              )}
-              {!note.emailMetadata && (
-                <div className="flex items-center gap-1">
-                  <Calendar className="h-3.5 w-3.5" />
-                  <span>Created {receivedAt}</span>
-                </div>
-              )}
+              <div className="flex items-center gap-1">
+                <Calendar className="h-3.5 w-3.5" />
+                <span>
+                  {note.emailMetadata ? receivedAt : `Created ${receivedAt}`}
+                </span>
+              </div>
             </div>
           </div>
           <div className="flex flex-col gap-1.5 items-end flex-shrink-0">
