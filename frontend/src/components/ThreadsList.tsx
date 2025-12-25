@@ -2,7 +2,7 @@ import { useThreads } from '@/hooks/useThreads';
 import { ThreadCard } from './ThreadCard';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Plus, Inbox } from 'lucide-react';
+import { Inbox, Plus } from 'lucide-react';
 
 export function ThreadsList() {
   const { threads } = useThreads();
@@ -33,21 +33,15 @@ export function ThreadsList() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">Your Threads</h1>
-          <p className="text-muted-foreground mt-1">
-            {threads.length} {threads.length === 1 ? 'thread' : 'threads'}
-          </p>
-        </div>
-        <Button onClick={handleNewThread}>
-          <Plus className="mr-2 h-4 w-4" />
-          New Thread
-        </Button>
+    <div className="space-y-6 max-w-4xl mx-auto">
+      <div>
+        <h1 className="text-3xl font-bold">Your Threads</h1>
+        <p className="text-muted-foreground mt-1">
+          {threads.length} {threads.length === 1 ? 'thread' : 'threads'}
+        </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="space-y-1 border rounded-lg overflow-hidden">
         {threads.map((thread) => (
           <ThreadCard
             key={thread.id}

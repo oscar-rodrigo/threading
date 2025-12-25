@@ -1,5 +1,4 @@
 import type { Thread } from '@/types';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { formatDistanceToNow } from 'date-fns';
 import { FileText } from 'lucide-react';
 
@@ -12,34 +11,21 @@ export function ThreadCard({ thread, onClick }: ThreadCardProps) {
   const lastUpdated = formatDistanceToNow(new Date(thread.updatedAt), { addSuffix: true });
 
   return (
-    <Card
-      className="cursor-pointer transition-all hover:shadow-lg hover:-translate-y-1"
+    <div
+      className="flex items-center justify-between py-4 px-4 cursor-pointer transition-colors hover:bg-muted/50 rounded-md"
       onClick={onClick}
-      style={{ borderLeftWidth: '4px', borderLeftColor: thread.color }}
     >
-      <CardHeader>
-        <div className="flex items-start justify-between gap-2">
-          <div className="flex-1 min-w-0">
-            <CardTitle className="text-xl truncate">{thread.title}</CardTitle>
-            <CardDescription className="mt-1.5 line-clamp-2">
-              {thread.description}
-            </CardDescription>
-          </div>
-          <div
-            className="w-3 h-3 rounded-full flex-shrink-0 mt-1"
-            style={{ backgroundColor: thread.color }}
-          />
+      <h3 className="text-base font-medium flex-1 min-w-0 pr-4 truncate">
+        {thread.title}
+      </h3>
+      <div className="flex items-center gap-3 text-sm text-muted-foreground flex-shrink-0">
+        <div className="flex items-center gap-1.5">
+          <FileText className="h-3.5 w-3.5" />
+          <span>{thread.noteCount} {thread.noteCount === 1 ? 'note' : 'notes'}</span>
         </div>
-      </CardHeader>
-      <CardContent>
-        <div className="flex items-center justify-between text-sm text-muted-foreground">
-          <div className="flex items-center gap-1.5">
-            <FileText className="h-4 w-4" />
-            <span>{thread.noteCount} {thread.noteCount === 1 ? 'note' : 'notes'}</span>
-          </div>
-          <span>Updated {lastUpdated}</span>
-        </div>
-      </CardContent>
-    </Card>
+        <span className="hidden md:inline">•</span>
+        <span className="hidden md:inline">Updated {lastUpdated}</span>
+      </div>
+    </div>
   );
 }
